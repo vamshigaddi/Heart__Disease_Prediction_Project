@@ -3,9 +3,9 @@ import pickle
 import numpy as np
 
 # Load the trained machine learning model
-model_file = 'banglore_home_prices_model.pickle'  # Replace with the path to your trained model file
-with open(model_file, 'rb') as file:
-    model = pickle.load(file)
+model = pickle.load(open('banglore_home_prices_model.pickle', 'rb'))
+# Create a Streamlit app
+st.title("House Price Prediction App")
 
 # Create a Streamlit app
 st.title("House Price Prediction App")
