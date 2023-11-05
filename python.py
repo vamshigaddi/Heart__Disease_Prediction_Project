@@ -2,6 +2,7 @@ import streamlit as st
 import pickle
 import numpy as np
 import json
+import sklearn
 
 # Load the trained machine learning model
 model = pickle.load(open('banglore_home_prices_model.pickle', 'rb'))
