@@ -2,6 +2,8 @@ import streamlit as st
 import pickle
 import numpy as np
 import json
+import sklearn
+from sklearn.linear_model import LinearRegression
 
 def format_price(price):
     price_str = str(price)
