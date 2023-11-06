@@ -3,6 +3,19 @@ import pickle
 import numpy as np
 import json
 
+def format_price(price):
+    price_str = str(price)
+    price_parts = price_str.split(".")
+    
+    if len(price_parts[0]) >= 3:
+        return f"Rs. {float(price) / 100:.2f} Cr"
+    elif len(price_parts[0]) == 2:
+        return f"Rs. {float(price):.2f} Lakhs"
+    else:
+        return f"Rs. {float(price) * 100:.2f} Lakhs"
+
+
+
 # Load the trained machine learning model
 model = pickle.load(open('banglore_home_prices_model.pickle', 'rb'))
 
@@ -61,27 +74,27 @@ bedrooms = st.selectbox("Bedrooms", range(1, 11), index=2)
 bathrooms = st.selectbox("Bathrooms", range(1, 11), index=2)
 
 # Dropdown for Location
-location = st.selectbox("Select Location", data_columns)
-
-# Search option for Location
-custom_location = st.text_input("Or Enter Custom Location")
-
-# Combine selected location and custom location
-selected_location = location if location else custom_location
+location = st.selectbox("Select Location", data_columns[3:])
 
 # Make Predictions
 if st.button("Predict Price"):
-    # Create input data
-    input_data = [sqft, bedrooms, bathrooms, selected_location]
-    input_data = np.array(input_data).reshape(1, -1)
+    # Ensure input data is in the correct data type
+    sqft = int(sqft)
+    bedrooms = int(bedrooms)
+    bathrooms = int(bathrooms)
 
-    # Perform any necessary preprocessing on the input data before making predictions
-    # For example, you may need to one-hot encode the location feature
+    # Create input data
+    input_data = [sqft, bedrooms, bathrooms] + [0] * len(data_columns[3:])  # Initialize location features with 0
+
+    # Set the location feature to 1 for the selected location
+    location_index = data_columns[3:].index(location)
+    input_data[location_index + 3] = 1
+
+    input_data = np.array(input_data).reshape(1, -1)
 
     # Make predictions
     predicted_price = model.predict(input_data)[0]
-    st.markdown(f"## Estimated House Price: ${predicted_price:.2f}")
-
-# Optionally, add some additional information or visualizations to your app
-st.markdown("### Additional Information:")
-st.markdown("This is a colorful house price prediction app that will surprise you!")
+    
+    # Format and display the price
+    formatted_price = format_price(predicted_price)
+    st.markdown(f"## Estimated House Price: {formatted_price}")
