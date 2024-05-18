@@ -6,7 +6,6 @@ This project aims to predict the presence of heart disease in patients using a m
 - [Dataset](#dataset)
 - [Model Description](#model-description)
 - [Installation](#installation)
-- [Usage](#usage)
 - [Train Your Own Model](#train-your-own-model)
 - [Results](#results)
 - [Contributing](#contributing)
@@ -15,59 +14,23 @@ This project aims to predict the presence of heart disease in patients using a m
 The dataset used in this project is the Heart Disease dataset Downloaded from the Kaggle. It contains 14 features related to heart health, such as age, sex, chest pain type, blood pressure, cholesterol level, and others.
 ## Model Description
 The prediction model is built using several machine learning algorithms. The final model is selected based on performance metrics such as RMSE (Root Mean Squared Error), MAE (Mean Absolute Error), and R² score. The main algorithms considered include:
-- Linear Regression
+- Logistic Regression
 - Decision Trees
-- 
+- SVM
+- Random Forest
+  
 ## Installation
 
 To use this project, follow these steps:
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/bangalore-house-price-prediction.git
+   git clone https://github.com/vamshigaddi/Heart__Disease_Prediction_Project.git
    ```
 2. Install the required dependencies:
    ```bash
    pip install -r requirements.txt
-## Usage
-# Load Pretrained Model
-```bash
-import pickle
-import numpy as np
-import pandas as pd
 
-# Load the trained model
-model_file = 'banglore_home_prices_model.pickle'  # Replace with the path to your trained model file
-with open(model_file, 'rb') as file:
-    model = pickle.load(file)
-
-# Load the columns data (assuming you have the columns saved in a file)
-json_file = 'columns.json'  # Replace with the path to your JSON file containing location names
-with open(json_file, 'r') as file:
-    location_data = json.load(file)
-
-# Extract location names
-locations = location_data['data_columns'][3:]  # Offset by 3 to skip first three non-location columns
-
-# Define the prediction function
-def predict_price(location, sqft, bath, bhk):
-    loc_index = locations.index(location)
-    
-    # Prepare the input array with zeros
-    x = np.zeros(len(locations) + 3)
-    x[0] = sqft
-    x[1] = bath
-    x[2] = bhk
-    if loc_index >= 0:
-        x[loc_index + 3] = 1  # Offset by 3 to accommodate the first three columns
-
-    return model.predict([x])[0]
-
-# Example usage
-predicted_price = predict_price('1st Phase JP Nagar', 1000, 2, 2)
-print(f"Estimated House Price: ₹{predicted_price:.2f} Lakhs")
-# output:83.8657025831235 (Lakhs)
-```
 # Train Your Own Model
 - Download the Dataset
 - Load the Data and Do all the preprocessing
@@ -77,10 +40,20 @@ print(f"Estimated House Price: ₹{predicted_price:.2f} Lakhs")
 
 ## Results
 
-The model's performance metrics are :
-- accuracy-84%
-- MAE-16.55
-- R² score-0.862
+### Classification Report
+![Classification Report](https://i.postimg.cc/Y9XJCsmW/Screenshot-2024-05-18-191421.png)
+
+### Confusion Matrix
+![Confusion Matrix](https://i.postimg.cc/Z5tKmWmh/Screenshot-2024-05-18-191432.png)
+
+### Models Accuracy
+![Model Accuracy](https://i.postimg.cc/k49TPF1t/Screenshot-2024-05-18-191443.png)
+
+
+
+
+
+
 
 These metrics are calculated on the test dataset and can be used to evaluate the model's accuracy and reliability.
 ## Contributing
